@@ -15,18 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from blog.views import index, read_post, edit_post, write_post, get_unpublished_posts
+from blog.views import index
 from accounts.views import signup
 from django.views.static import serve
 from django.conf import settings
+from blog import urls as blog_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('posts/', include(blog_urls)),
     path('signup/', signup, name="signup"),
     path('', index, name="index"),
-    path('posts/unpublished', get_unpublished_posts, name="get_unpublished_posts"),
-    path('posts/read_post/<int:id>', read_post, name="read_post"),
-    path('posts/edit_post/<int:id>', edit_post, name="edit_post"),
-    path('posts/write_post/', write_post, name="write_post"),
     path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
